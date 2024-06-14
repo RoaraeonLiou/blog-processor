@@ -30,7 +30,10 @@ func WriteProcessedMarkdown(filePath string, header *model.BlogHeader, bodyConte
 	if err != nil {
 		return err
 	}
-
+	_, err = writer.WriteString("---\n")
+	if err != nil {
+		return err
+	}
 	_, err = writer.WriteString(bodyContent)
 	if err != nil {
 		return err

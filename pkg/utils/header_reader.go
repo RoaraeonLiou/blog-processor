@@ -5,13 +5,13 @@ import (
 	"bufio"
 	"gopkg.in/yaml.v3"
 	"os"
-	"path/filepath"
 )
 
-func ReadYAMLHeader(filePath string) (*model.BlogHeader, string, string, error) {
+func ReadYAMLHeader(filePath string) (*model.BlogHeader, string, error) {
+	// 分离头部和主体内容, 后续分别做处理
 	file, err := os.Open(filePath)
 	if err != nil {
-		return nil, "", "", err
+		return nil, "", err
 	}
 	defer file.Close()
 
@@ -42,9 +42,8 @@ func ReadYAMLHeader(filePath string) (*model.BlogHeader, string, string, error) 
 	var header model.BlogHeader
 	err = yaml.Unmarshal([]byte(yamlLines), &header)
 	if err != nil {
-		return nil, "", "", err
+		return nil, "", err
 	}
 
-	fileName := filepath.Base(filePath)
-	return &header, fileName, bodyContent, nil
+	return &header, bodyContent, nil
 }

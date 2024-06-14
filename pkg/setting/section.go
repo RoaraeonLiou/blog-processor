@@ -5,6 +5,7 @@ type BasicSettingS struct {
 	ImageDir     string
 	TemplateFile string
 	OutputDir    string
+	HttpBasePath string
 }
 
 type LogStrategySettingS struct {

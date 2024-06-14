@@ -9,7 +9,7 @@ import (
 )
 
 // 提取图片地址并返回MD5编码的文件名
-func ExtractImagesAndEncodeFilename(content, filename string) ([]string, string) {
+func ExtractImagesAndEncodeFilename(content string) []string {
 	re := regexp.MustCompile(`!\[.*?\]\((.*?)\)`) // 正则表达式匹配Markdown图片路径
 	matches := re.FindAllStringSubmatch(content, -1)
 
@@ -19,17 +19,15 @@ func ExtractImagesAndEncodeFilename(content, filename string) ([]string, string)
 			imagePaths = append(imagePaths, match[1])
 		}
 	}
-
-	encodedFilename := EncodeMD5(filename)
-	return imagePaths, encodedFilename
+	return imagePaths
 }
 
 // 替换文件中的图片路径为新的HTTP路径，仅针对非HTTP源的图片
-func ReplaceImagePaths(content string, imagePaths []string, httpBasePath string) string {
+func ReplaceImagePaths(content string, imagePaths []string, httpBasePath string, newImageDirPath string) string {
 	for _, imagePath := range imagePaths {
 		if !strings.HasPrefix(imagePath, "http") {
 			md5Filename := EncodeMD5(filepath.Base(imagePath)) + filepath.Ext(imagePath)
-			newURL := httpBasePath + md5Filename
+			newURL := httpBasePath + newImageDirPath + "/" + md5Filename
 			content = strings.Replace(content, imagePath, newURL, -1)
 		}
 	}
@@ -37,13 +35,14 @@ func ReplaceImagePaths(content string, imagePaths []string, httpBasePath string)
 }
 
 // 复制文件到新目录并重命名为MD5编码后的名称
-func CopyImagesToDir(imagePaths []string, dirPath string) error {
+func CopyImagesToDir(imagePaths []string, dirPath string, imgSourcePath string) error {
 	if err := os.MkdirAll(dirPath, os.ModePerm); err != nil {
 		return err
 	}
 
 	for _, imagePath := range imagePaths {
-		input, err := os.Open(imagePath)
+		realImagePath := imgSourcePath + "/" + imagePath
+		input, err := os.Open(realImagePath)
 		if err != nil {
 			return err
 		}

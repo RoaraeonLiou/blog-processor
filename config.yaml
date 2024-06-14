@@ -1,8 +1,9 @@
 Basic:
-  BlogDir: "/"
-  ImageDir: "/"
+  BlogDir: "../tmp/content"
+  ImageDir: "../tmp/content/assert"
   TemplateFile: "/"
-  OutputDir: "/"
+  OutputDir: "../tmp/imageOut"
+  HttpBasePath: "https://github.com/"
 
 LogStrategy:
   LogToFile: false

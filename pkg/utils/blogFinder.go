@@ -1,13 +1,19 @@
 package utils
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 )
 
 func FindAllMarkdownFiles(dirPath string) ([]string, error) {
+	wd, err := os.Getwd()
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(wd)
 	var files []string
-	err := filepath.Walk(dirPath, func(path string, info os.FileInfo, err error) error {
+	err = filepath.Walk(dirPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
