@@ -1,0 +1,9 @@
+Basic:
+  BlogDir: "/"
+  ImageDir: "/"
+  TemplateFile: "/"
+  OutputDir: "/"
+
+LogStrategy:
+  LogToFile: false
+  LogFile: "/"
