@@ -6,12 +6,11 @@ import (
 	"path/filepath"
 )
 
-func ProcessSingleFile(filePath string, httpBasePath string, imgOutPath string) error {
+func ProcessSingleFile(filePath string, httpBasePath string, imgOutPath string, dateLayout string) error {
 	header, fileContent, err := utils.ReadYAMLHeader(filePath)
 	if err != nil {
 		return err
 	}
-	// todo: 处理头部
 
 	// 创建文件夹
 	fileName := filepath.Base(filePath)
@@ -23,6 +22,9 @@ func ProcessSingleFile(filePath string, httpBasePath string, imgOutPath string) 
 	if err := os.MkdirAll(newImageDirPath, os.ModePerm); err != nil {
 		return err
 	}
+
+	// todo: 处理头部
+	utils.ProcessHeader(header, fileContent, fileName, dateLayout)
 
 	imagesPaths := utils.ExtractImagesAndEncodeFilename(fileContent)
 
@@ -39,13 +41,13 @@ func ProcessSingleFile(filePath string, httpBasePath string, imgOutPath string) 
 	return nil
 }
 
-func ProcessAll(filePath string, httpBasePath string, imgOutPath string) error {
+func ProcessAll(filePath string, httpBasePath string, imgOutPath string, dateLayout string) error {
 	mdFilePaths, err := utils.FindAllMarkdownFiles(filePath)
 	if err != nil {
 		return err
 	}
 	for _, filePath := range mdFilePaths {
-		err = ProcessSingleFile(filePath, httpBasePath, imgOutPath)
+		err = ProcessSingleFile(filePath, httpBasePath, imgOutPath, dateLayout)
 		if err != nil {
 			return err
 		}

@@ -1,13 +1,13 @@
 package model
 
 type BlogHeader struct {
-	Title       string    `json:"title"`
-	Description string    `json:"description"`
-	Tags        []string  `json:"tags"`
-	Date        string    `json:"date"`
-	Categories  []string  `json:"categories"`
-	Slug        string    `json:"slug"`
-	Author      string    `json:"author"`
-	Draft       bool      `json:"draft"`
-	Cover       BlogCover `json:"cover"`
+	Title       string    `yaml:"title"`
+	Description string    `yaml:"description,omitempty"`
+	Tags        []string  `yaml:"tags,omitempty"`
+	Date        string    `yaml:"date,omitempty"`
+	Categories  []string  `yaml:"categories,omitempty"`
+	Slug        string    `yaml:"slug,omitempty"`
+	Author      string    `yaml:"author,omitempty"`
+	Draft       bool      `yaml:"draft,omitempty"`
+	Cover       BlogCover `yaml:"cover,omitempty"`
 }

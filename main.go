@@ -18,7 +18,10 @@ func init() {
 
 func main() {
 	fmt.Println("Start processing")
-	err := biz.ProcessAll(global.BasicSetting.BlogDir, global.BasicSetting.HttpBasePath, global.BasicSetting.OutputDir)
+	err := biz.ProcessAll(global.BasicSetting.BlogDir,
+		global.BasicSetting.HttpBasePath,
+		global.BasicSetting.OutputDir,
+		global.BasicSetting.DateLayout)
 	if err != nil {
 		fmt.Println("process err:", err)
 	}

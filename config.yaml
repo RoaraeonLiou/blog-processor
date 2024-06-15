@@ -3,8 +3,14 @@ Basic:
   ImageDir: "../tmp/content/assert"
   TemplateFile: "/"
   OutputDir: "../tmp/imageOut"
-  HttpBasePath: "https://github.com/"
+  HttpBasePath: "https://raw.githubusercontent.com/roaraeonliou/roaraeonliou.github.io/main/"
+  DateLayout: "2006-01-02 15:04:05"
 
 LogStrategy:
   LogToFile: false
   LogFile: "/"
+
+FileMeta:
+  Author: "RLTEA"
+
+

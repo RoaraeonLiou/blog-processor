@@ -1,9 +1,9 @@
 package model
 
 type BlogCover struct {
-	Image    string `json:"image"`
-	Alt      string `json:"alt"`
-	Caption  string `json:"caption"`
-	Relative bool   `json:"relative"`
-	Hidden   bool   `json:"hidden"`
+	Image    string `yaml:"image,omitempty"`
+	Alt      string `yaml:"alt,omitempty"`
+	Caption  string `yaml:"caption,omitempty"`
+	Relative bool   `yaml:"relative,omitempty"`
+	Hidden   bool   `yaml:"hidden,omitempty"`
 }

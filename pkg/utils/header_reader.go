@@ -5,6 +5,8 @@ import (
 	"bufio"
 	"gopkg.in/yaml.v3"
 	"os"
+	"strings"
+	"time"
 )
 
 func ReadYAMLHeader(filePath string) (*model.BlogHeader, string, error) {
@@ -46,4 +48,31 @@ func ReadYAMLHeader(filePath string) (*model.BlogHeader, string, error) {
 	}
 
 	return &header, bodyContent, nil
+}
+
+func extractFirstHeading(content string) string {
+	content = strings.TrimSpace(content)
+	lines := strings.SplitN(content, "\n", 2)
+	if len(lines) > 0 {
+		firstLine := lines[0]
+		if strings.HasPrefix(firstLine, "# ") {
+			return strings.TrimSpace(firstLine[2:])
+		}
+	}
+	return ""
+}
+
+func ProcessHeader(header *model.BlogHeader, bodyContent string, fileName string, dateLayout string) error {
+	if header.Title == "" {
+		header.Title = extractFirstHeading(bodyContent)
+		if header.Title == "" {
+			header.Title = fileName
+		}
+	}
+	if header.Date == "" {
+		now := time.Now()
+		formattedDate := now.Format(dateLayout)
+		header.Date = formattedDate
+	}
+	return nil
 }

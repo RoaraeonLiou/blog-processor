@@ -6,6 +6,7 @@ type BasicSettingS struct {
 	TemplateFile string
 	OutputDir    string
 	HttpBasePath string
+	DateLayout   string
 }
 
 type LogStrategySettingS struct {
