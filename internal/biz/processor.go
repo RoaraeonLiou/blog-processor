@@ -1,6 +1,7 @@
 package biz
 
 import (
+	"blog-processor/global"
 	"blog-processor/internal/db"
 	"blog-processor/internal/model"
 	"blog-processor/pkg/utils"
@@ -114,8 +115,8 @@ func parseAndHandleImageSource(filePath string, httpBasePath string, imgOutPath 
 	}
 	rawContent := string(rawByteContent)
 	imagesPaths := utils.ExtractImagesAndEncodeFilename(rawContent)
-
-	newContent := utils.ReplaceImagePaths(rawContent, imagesPaths, httpBasePath, newImageDirPath)
+	mappingDir := filepath.Base(global.BasicSetting.OutputDir) + "/" + fatherFolderName + "/" + imageFolderName
+	newContent := utils.ReplaceImagePaths(rawContent, imagesPaths, httpBasePath, mappingDir)
 
 	err = utils.CopyImagesToDir(imagesPaths, newImageDirPath, dirPath)
 	if err != nil {
