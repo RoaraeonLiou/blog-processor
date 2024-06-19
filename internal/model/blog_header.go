@@ -10,6 +10,6 @@ type BlogHeader struct {
 	Author      string    `yaml:"author,omitempty"`
 	Draft       bool      `yaml:"draft,omitempty"`
 	Cover       BlogCover `yaml:"cover,omitempty"`
-	Status      string    `yaml:"status,omitempty"`
+	Status      string    `yaml:"-"`
 	LastMod     string    `yaml:"lastmod,omitempty"`
 }
