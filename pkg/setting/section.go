@@ -14,6 +14,10 @@ type LogStrategySettingS struct {
 	LogFile   string
 }
 
+type DBSettingS struct {
+	DBFile string
+}
+
 func (s *Setting) ReadSection(k string, v interface{}) error {
 	err := s.vp.UnmarshalKey(k, v)
 	if err != nil {

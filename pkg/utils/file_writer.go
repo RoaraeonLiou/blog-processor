@@ -46,3 +46,15 @@ func WriteProcessedMarkdown(filePath string, header *model.BlogHeader, bodyConte
 
 	return nil
 }
+
+func ReadMarkDown(filePath string) (string, error) {
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		return "", err
+	}
+	return string(data), nil
+}
+
+func WriteMarkDown(blog *model.Blog) error {
+	return WriteProcessedMarkdown(blog.FilePath, blog.BlogHeader, blog.BlogContent)
+}

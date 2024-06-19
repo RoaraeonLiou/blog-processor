@@ -13,4 +13,7 @@ LogStrategy:
 FileMeta:
   Author: "RLTEA"
 
+DataBase:
+  DBFile: "../tmp/meta.db"
+
 

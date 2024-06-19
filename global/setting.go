@@ -7,4 +7,5 @@ import (
 var (
 	BasicSetting       *setting.BasicSettingS
 	LogStrategySetting *setting.LogStrategySettingS
+	DBSetting          *setting.DBSettingS
 )
