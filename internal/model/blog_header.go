@@ -12,4 +12,8 @@ type BlogHeader struct {
 	Cover       BlogCover `yaml:"cover,omitempty"`
 	Status      string    `yaml:"-"`
 	LastMod     string    `yaml:"lastmod,omitempty"`
+	Layout      string    `yaml:"layout,omitempty"`
+	Summary     string    `yaml:"summary,omitempty"`
+	PlaceHolder string    `yaml:"placeholder,omitempty"`
+	Url         string    `yaml:"url,omitempty"`
 }
