@@ -8,4 +8,5 @@ type Blog struct {
 	DirName     string      `json:"dir_name"`
 	FilePath    string      `json:"file_path"`
 	Hash        string      `json:"hash"`
+	RelPath     string      `json:"rel_path"`
 }

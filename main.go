@@ -23,6 +23,22 @@ func init() {
 }
 
 func main() {
+	test()
+}
+
+func test() {
+	defer func(LiteDB *sql.DB) {
+		if LiteDB != nil {
+			err := LiteDB.Close()
+			if err != nil {
+				fmt.Println("close db err:", err)
+			}
+		}
+	}(global.LiteDB)
+	biz.Exec()
+}
+
+func mainBak() {
 	defer func(LiteDB *sql.DB) {
 		if LiteDB != nil {
 			err := LiteDB.Close()
@@ -66,6 +82,15 @@ func setupSetting() error {
 	if err != nil {
 		return err
 	}
+	err = appSetting.ReadSection("SearchPageConfig", &global.SearchSetting)
+	if err != nil {
+		return err
+	}
+	err = appSetting.ReadSection("ArchivesPageConfig", &global.ArchivesSetting)
+	if err != nil {
+		return err
+	}
+
 	wd, err := os.Getwd()
 	if err != nil {
 		return err

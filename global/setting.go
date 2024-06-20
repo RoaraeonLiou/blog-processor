@@ -8,4 +8,6 @@ var (
 	BasicSetting       *setting.BasicSettingS
 	LogStrategySetting *setting.LogStrategySettingS
 	DBSetting          *setting.DBSettingS
+	SearchSetting      *setting.SearchSettingS
+	ArchivesSetting    *setting.ArchivesSettingS
 )
