@@ -4,6 +4,7 @@ import (
 	"blog-processor/global"
 	"blog-processor/internal/biz"
 	"blog-processor/internal/db"
+	"blog-processor/internal/model"
 	"blog-processor/pkg/setting"
 	"database/sql"
 	"fmt"
@@ -20,6 +21,7 @@ func init() {
 	if err != nil {
 		fmt.Println("setup db engine err:", err)
 	}
+	buildGlobalHeader()
 }
 
 func main() {
@@ -36,30 +38,6 @@ func test() {
 		}
 	}(global.LiteDB)
 	biz.Exec()
-}
-
-func mainBak() {
-	defer func(LiteDB *sql.DB) {
-		if LiteDB != nil {
-			err := LiteDB.Close()
-			if err != nil {
-				fmt.Println("close db err:", err)
-			}
-		}
-	}(global.LiteDB)
-	fmt.Println("Start processing")
-	//err := biz.ProcessAll(global.BasicSetting.BlogDir,
-	//	global.BasicSetting.HttpBasePath,
-	//	global.BasicSetting.OutputDir,
-	//	global.BasicSetting.DateLayout)
-	err := biz.Process(global.BasicSetting.BlogDir,
-		global.BasicSetting.HttpBasePath,
-		global.BasicSetting.OutputDir,
-		global.BasicSetting.DateLayout)
-	if err != nil {
-		fmt.Println("process err:", err)
-	}
-
 	fmt.Println("Done!")
 }
 
@@ -87,6 +65,10 @@ func setupSetting() error {
 		return err
 	}
 	err = appSetting.ReadSection("ArchivesPageConfig", &global.ArchivesSetting)
+	if err != nil {
+		return err
+	}
+	err = appSetting.ReadSection("GlobalHeaderConfig", &global.GlobalHeaderSetting)
 	if err != nil {
 		return err
 	}
@@ -134,4 +116,9 @@ func setupDBEngine() error {
 		return err
 	}
 	return nil
+}
+
+func buildGlobalHeader() {
+	global.GlobalHeader = new(model.BlogHeader)
+	global.GlobalHeader.Author = global.GlobalHeaderSetting.Author
 }

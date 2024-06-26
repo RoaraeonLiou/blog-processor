@@ -26,6 +26,7 @@ func buildAndWriteSearchFile() {
 	header.Layout = global.SearchSetting.Layout
 	header.Summary = global.SearchSetting.Summary
 	header.PlaceHolder = global.SearchSetting.Placeholder
+	header.Type = global.SearchSetting.Type
 
 	path := global.BasicSetting.BlogDir + "/" + "search.md"
 	err := file_handler.WriteProcessedMarkdown(path, &header, "")
@@ -40,6 +41,7 @@ func buildAndWriteArchivesFile() {
 	header.Layout = global.ArchivesSetting.Layout
 	header.Summary = global.ArchivesSetting.Summary
 	header.Url = global.ArchivesSetting.Url
+	header.Type = global.ArchivesSetting.Type
 
 	path := global.BasicSetting.BlogDir + "/" + "archives.md"
 	err := file_handler.WriteProcessedMarkdown(path, &header, "")

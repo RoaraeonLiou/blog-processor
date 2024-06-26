@@ -1,4 +1,4 @@
-package biz
+package processor
 
 import (
 	"blog-processor/global"
@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-func ProcessFile(filePath string) (string, error) {
+func ProcessFile(filePath string, commonHeader *model.BlogHeader) (string, error) {
 	// 读取文件并替换文件源
 	rawContent, fileSize, err := file_handler.ReadMarkDown(filePath)
 	if err != nil {
@@ -43,6 +43,10 @@ func ProcessFile(filePath string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	if commonHeader != nil {
+		sourceHeader.Merge(commonHeader)
+	}
+	sourceHeader.Merge(global.GlobalHeader)
 
 	// 构建blog对象
 	blog := &model.Blog{}

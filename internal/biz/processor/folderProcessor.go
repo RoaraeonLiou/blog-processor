@@ -1,20 +1,22 @@
-package biz
+package processor
 
 import (
+	"blog-processor/internal/model"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 // 针对单个文件夹的处理
 
-func ProcessFolder(folderPath string) ([]string, error) {
+func ProcessFolder(folderPath string, commonHeader *model.BlogHeader) ([]string, error) {
 	markdownFiles, err := scanMarkdownFiles(folderPath)
 	if err != nil {
 		return nil, err
 	}
 	var blogsMd5Set []string
 	for _, markdownFile := range markdownFiles {
-		md5Path, err := ProcessFile(markdownFile)
+		md5Path, err := ProcessFile(markdownFile, commonHeader)
 		if err != nil {
 			return nil, err
 		}
@@ -42,8 +44,8 @@ func scanMarkdownFiles(dir string) ([]string, error) {
 
 	// 遍历目录内容
 	for _, file := range files {
-		// 如果是文件且扩展名为.md，则添加到Markdown文件列表中
-		if !file.IsDir() && filepath.Ext(file.Name()) == ".md" {
+		// 如果是文件且扩展名为.md且不为隐藏文件，则添加到Markdown文件列表中
+		if !file.IsDir() && filepath.Ext(file.Name()) == ".md" && !strings.HasPrefix(file.Name(), ".") {
 			markdownFiles = append(markdownFiles, filepath.Join(dir, file.Name()))
 		}
 	}

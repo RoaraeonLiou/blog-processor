@@ -1,4 +1,4 @@
-package biz
+package cleaner
 
 import (
 	"blog-processor/global"

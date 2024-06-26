@@ -1,4 +1,4 @@
-package utils
+package set_operation
 
 // Difference 返回 a 和 b 的差集，即所有存在于 a 但不在 b 中的元素
 func Difference(a, b []string) []string {
@@ -19,4 +19,31 @@ func Difference(a, b []string) []string {
 	}
 
 	return diff
+}
+
+func Union(a, b []string) []string {
+	m := make(map[string]bool)
+	for _, item := range a {
+		m[item] = true
+	}
+	for _, item := range b {
+		if _, found := m[item]; !found {
+			a = append(a, item)
+		}
+	}
+	return a
+}
+
+func Exclude(a, b []string) []string {
+	m := make(map[string]bool)
+	for _, item := range b {
+		m[item] = true
+	}
+	var result []string
+	for _, item := range a {
+		if _, found := m[item]; !found {
+			result = append(result, item)
+		}
+	}
+	return result
 }

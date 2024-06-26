@@ -1,12 +1,15 @@
 package setting
 
 type BasicSettingS struct {
-	BlogDir      string
-	ImageDir     string
-	TemplateFile string
-	OutputDir    string
-	HttpBasePath string
-	DateLayout   string
+	BlogDir                string
+	ImageDir               string
+	TemplateFile           string
+	OutputDir              string
+	HttpBasePath           string
+	DateLayout             string
+	CommonHeaderFileName   string
+	CommonHeaderFileExt    string
+	CommonHeaderFileFormat string
 }
 
 type LogStrategySettingS struct {
@@ -24,6 +27,7 @@ type ArchivesSettingS struct {
 	Layout  string
 	Url     string
 	Summary string
+	Type    string
 }
 
 type SearchSettingS struct {
@@ -32,6 +36,11 @@ type SearchSettingS struct {
 	Layout      string
 	Summary     string
 	Placeholder string
+	Type        string
+}
+
+type GlobalHeaderSettingS struct {
+	Author string
 }
 
 func (s *Setting) ReadSection(k string, v interface{}) error {

@@ -1,9 +1,10 @@
-package biz
+package processor
 
 import (
 	"blog-processor/global"
 	"blog-processor/internal/model"
 	"encoding/json"
+	"errors"
 	"github.com/BurntSushi/toml"
 	"gopkg.in/yaml.v3"
 	"strings"
@@ -78,4 +79,52 @@ func extractFirstHeading(content string) string {
 		}
 	}
 	return ""
+}
+
+func ParseHeader(content string, ext string, format string) (*model.BlogHeader, error) {
+	var header model.BlogHeader
+	if ext == ".md" {
+		if format == "yaml" || format == "yml" {
+			if strings.HasPrefix(content, "---\n") && strings.Contains(content, "---\n") {
+				start := strings.Index(content, "---\n") + 4
+				end := strings.Index(content[start:], "---\n") + start
+				content = content[start:end]
+			}
+			if err := yaml.Unmarshal([]byte(content), &header); err != nil {
+				return nil, err
+			}
+		} else if format == "json" {
+			if strings.HasPrefix(content, "{") && strings.Contains(content, "}") {
+				end := strings.Index(content, "}") + 1
+				content = content[:end]
+			}
+			if err := json.Unmarshal([]byte(content), &header); err != nil {
+				return nil, err
+			}
+		} else if format == "toml" {
+			if strings.HasPrefix(content, "+++\n") && strings.Contains(content, "+++\n") {
+				start := strings.Index(content, "+++\n") + 4
+				end := strings.Index(content[start:], "+++\n") + start
+				content = content[start:end]
+			}
+			if err := toml.Unmarshal([]byte(content), &header); err != nil {
+				return nil, err
+			}
+		}
+	} else if (ext == ".yaml" || ext == ".yml") && (format == "yaml" || format == "yml") {
+		if err := yaml.Unmarshal([]byte(content), &header); err != nil {
+			return nil, err
+		}
+	} else if (ext == ".json") && format == "json" {
+		if err := json.Unmarshal([]byte(content), &header); err != nil {
+			return nil, err
+		}
+	} else if (ext == ".toml") && format == "toml" {
+		if err := toml.Unmarshal([]byte(content), &header); err != nil {
+			return nil, err
+		}
+	} else {
+		return nil, errors.New("config error")
+	}
+	return &header, nil
 }

@@ -5,14 +5,14 @@ Basic:
   OutputDir: "../static"
   HttpBasePath: "https://raw.githubusercontent.com/roaraeonliou/roaraeonliou.github.io/static/"
   DateLayout: "2006-01-02"
+  CommonHeaderFileName: ".header"
+  CommonHeaderFileExt: ".toml"
+  CommonHeaderFileFormat: "toml"
 #  DateLayout: "2006-01-02 15:04:05"
 
 LogStrategy:
   LogToFile: false
   LogFile: "/"
-
-FileMeta:
-  Author: "RLTEA"
 
 DataBase:
   DBFile: "../meta.db"
@@ -23,6 +23,7 @@ SearchPageConfig:
   Layout: "search"
   Summary: "search"
   Placeholder: "search..."
+  Type: "special"
 
 
 ArchivesPageConfig:
@@ -31,6 +32,9 @@ ArchivesPageConfig:
   Layout: "archives"
   Url: "/archives/"
   Summary: "archives"
+  Type: "special"
 
+GlobalHeaderConfig:
+  Author: "RLTEA"
 
 

@@ -1,4 +1,4 @@
-package biz
+package processor
 
 import (
 	"blog-processor/global"
