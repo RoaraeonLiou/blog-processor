@@ -120,3 +120,29 @@ func (processor *ImageProcessor) ReplaceContent() {
 		processor.Content = strings.Replace(processor.Content, blogImage.RawPath, newURL, -1)
 	}
 }
+
+func (processor *ImageProcessor) ForceWriteToNewDir() error {
+	for _, blogImage := range processor.BlogImages {
+		// 获取原始图片真实路径
+		input, err := os.Open(blogImage.AbsPath)
+		if err != nil {
+			return err
+		}
+		defer input.Close()
+
+		// 构建输出文件
+		outputPath := filepath.Join(processor.OutputPath, blogImage.EncodedFileName+blogImage.FileExt)
+
+		output, err := os.Create(outputPath)
+		if err != nil {
+			return err
+		}
+		defer output.Close()
+
+		// 复制文件
+		if _, err = io.Copy(output, input); err != nil {
+			return err
+		}
+	}
+	return nil
+}

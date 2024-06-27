@@ -35,6 +35,14 @@ func ProcessFile(filePath string, commonHeader *model.BlogHeader) (string, error
 		return "", err
 	}
 
+	// 强制更新
+	if sourceHeader.Status == "update" {
+		err = imageProcessor.ForceWriteToNewDir()
+		if err != nil {
+			return "", err
+		}
+	}
+
 	// 处理头部
 	fileFullName := filepath.Base(filePath)
 	fileExt := filepath.Ext(fileFullName)
@@ -98,8 +106,8 @@ func WriteFile(blog *model.Blog) error {
 	if err != nil {
 		return err
 	}
-	if meta.Hash == blog.Hash {
-		// 文件没有修改, 不操作数据库, 直接写文件
+	if meta.Hash == blog.Hash && blog.BlogHeader.Status != "update" {
+		// 文件没有修改且没有设置强制更新, 不操作数据库, 直接写文件
 		err = file_handler.WriteMarkDown(blog)
 		if err != nil {
 			return err
