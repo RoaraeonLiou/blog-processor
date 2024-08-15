@@ -6,6 +6,7 @@ import (
 	"blog-processor/pkg/utils/encoder"
 	"fmt"
 	"io"
+	"net/url"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -47,7 +48,8 @@ func (processor *ImageProcessor) ProcessImage() error {
 
 func (processor *ImageProcessor) ExtractImages() {
 	// 正则表达式匹配Markdown图片路径
-	re := regexp.MustCompile(`!\[.*?\]\((.*?)\)`)
+	// TODO: 修改匹配正则
+	re := regexp.MustCompile(`!\[.*?\]\((.*?(png)|(jpg)|(jpeg)|(gif)|(ico)|(webp)|(svg))\)`)
 	matches := re.FindAllStringSubmatch(processor.Content, -1)
 
 	var imagePaths []string
@@ -80,7 +82,14 @@ func (processor *ImageProcessor) WriteToNewDir() error {
 		// 获取原始图片真实路径
 		input, err := os.Open(blogImage.AbsPath)
 		if err != nil {
-			return err
+			newPath, err := url.QueryUnescape(blogImage.AbsPath)
+			if err != nil {
+				return err
+			}
+			input, err = os.Open(newPath)
+			if err != nil {
+				return err
+			}
 		}
 		defer input.Close()
 
@@ -126,7 +135,14 @@ func (processor *ImageProcessor) ForceWriteToNewDir() error {
 		// 获取原始图片真实路径
 		input, err := os.Open(blogImage.AbsPath)
 		if err != nil {
-			return err
+			newPath, err := url.QueryUnescape(blogImage.AbsPath)
+			if err != nil {
+				return err
+			}
+			input, err = os.Open(newPath)
+			if err != nil {
+				return err
+			}
 		}
 		defer input.Close()
 
